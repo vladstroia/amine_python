@@ -14,11 +14,24 @@ mycursor = mydb.cursor()
 
 
 # sql querry string
-sql = "INSERT INTO Inputs VALUES (%s, %s,%s,%s,%s,%s, %s)"
+sql = "INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6) VALUES (%s, %s,%s,%s,%s,%s, %s)"
 #  val = (1,2,3,4,5,6)
 
 # sql = "INSERT INTO Inputs VALUES (%f, %f,%f,%f,%f,%f, %f)"
 
+
+
+# CREATE TABLE Inputs (
+#     NumberId int NOT NULL AUTO_INCREMENT,
+#     TimeStamp float,
+#     Temp1 float,
+#     Temp2 float,
+#     Temp3 float,
+#     Temp4 float,
+#     Temp5 float,
+#     Temp6 float,
+#     PRIMARY KEY (NumberId)
+# );
 
 while True:
     # 6 valori random intr-o lista
