@@ -1,7 +1,7 @@
 # amine_python
 
 
-Script care creeaza valori random pe temperaturi si le scrie in baza de date mysql.
+Script care creeaza valori random de temperaturi si le scrie in baza de date mysql.
 
 
 mysql> SELECT * FROM Inputs;
