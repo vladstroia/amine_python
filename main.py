@@ -14,16 +14,13 @@ mycursor = mydb.cursor()
 
 
 # sql querry string
-sql = "INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6) VALUES (%s, %s,%s,%s,%s,%s, %s)"
-#  val = (1,2,3,4,5,6)
+sql = ("INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6) "
+ "VALUES (%s, %s,%s,%s,%s,%s, %s)"
+)
 
-# sql = "INSERT INTO Inputs VALUES (%f, %f,%f,%f,%f,%f, %f)"
-
-
-
-# CREATE TABLE Inputs (
+# ); CREATE TABLE Inputs (
 #     NumberId int NOT NULL AUTO_INCREMENT,
-#     TimeStamp float,
+#     TimeStamp varchar(256),
 #     Temp1 float,
 #     Temp2 float,
 #     Temp3 float,
@@ -38,7 +35,8 @@ while True:
     val = [round(random.uniform(20, 60), 2) for i in range (6)]
     
     #adaugam timestamp 
-    val =  [time.time()] + val
+    mytime = time.asctime( time.localtime(time.time()) )
+    val =  [mytime] + val
     print(val)
     mycursor.execute(sql, val)
     mydb.commit()
