@@ -17,8 +17,9 @@ mycursor = mydb.cursor()
 sql = ("INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6) "
  "VALUES (%s, %s,%s,%s,%s,%s, %s)"
 )
+sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 
-# ); CREATE TABLE Inputs (
+#  CREATE TABLE Inputs (
 #     NumberId int NOT NULL AUTO_INCREMENT,
 #     TimeStamp varchar(256),
 #     Temp1 float,
@@ -37,9 +38,18 @@ while True:
     #adaugam timestamp 
     mytime = time.asctime( time.localtime(time.time()) )
     val =  [mytime] + val
+    print("scriere in tabelul Inputs:   ")
     print(val)
     mycursor.execute(sql, val)
     mydb.commit()
+    
+    mycursor.execute(sql_rezistente)
+    myresult = mycursor.fetchall()
+    print("citire din tabelul Rezistente:   " )
+    print(myresult)
+
+
+
     time.sleep( 1 )
 
 
