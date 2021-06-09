@@ -23,3 +23,9 @@ The addressing control is unusual in that you only need to use one input pin as 
 
 Normally you would need two inputs to switch between 4 addresses but the ADS1115 16-bit ADC uses a clever scheme. The single address input is sampled continuously and if you connect it to GND, VDD, SDA or SCL you can set the address from 0x48, 0x49, 0x4a, 0x4b respectively.
 source : https://www.best-microcontroller-projects.com/ads1115.html
+
+
+
+
+mai e si link ul asta 
+https://github.com/adafruit/Adafruit_CircuitPython_ADS1x15/issues/20
