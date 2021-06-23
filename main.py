@@ -119,12 +119,15 @@ while True:
     myresult = mycursor.fetchall()
     print("citire din tabelul Rezistente:   " )
     print(myresult)
-    #returneaza un array cu valorile pe care trebuie sa le aiba rezistentele
     rezistente = str(myresult).strip("])").split(',')[2:]
-    print(rezistente)      
+    #returneaza un array cu valorile pe care trebuie sa le aiba rezistentele
+    print(rezistente)    
+    #pentru fiecare rezistenta verificam daca trebuie sa fie pornita sa oprita si o pornim/oprim  
     for i in range(len(rezistente)):
       if rezistente[i] == 1:
-          GPIO.output(relay_pin[i], GPIO.HIGH) #turn relay 2 on
+          GPIO.output(relay_pin[i], GPIO.HIGH) #turn relay  on
+      else:
+          GPIO.output(relay_pin[i], GPIO.LOW) #turn relay off 
 
 
 
