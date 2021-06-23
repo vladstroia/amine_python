@@ -24,6 +24,10 @@ relay_pin = [1,2,3,4,5]
 
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
+
+
+#cred ca daca am pune GPIO.BOARD, atunci pinii ar fi de la 21 la 26
+
 GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 1 output 
 GPIO.setup(relay_pin[2], GPIO.OUT) #set Relay 2 output
 GPIO.setup(relay_pin[3], GPIO.OUT) #set Relay 3 output 
