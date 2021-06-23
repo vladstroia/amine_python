@@ -4,7 +4,7 @@ import time
 
 import mysql.connector
 
-#pt ads1115 (placa care citeste senzori de temp)
+# #pt ads1115 (placa care citeste senzori de temp)
 import board
 import busio
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -15,6 +15,24 @@ from adafruit_ads1x15.analog_in import AnalogIn
 
 ads1 = ADS.ADS1115(i2c)                   #prima placa ads1115
 ads2 = ADS.ADS1115(i2c, address=0x49)     #pentru a doua placa
+
+
+#config relay hat
+#have to find out what the actual pins are 
+relay_pin = [1,2,3,4,5]
+
+
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
+GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 1 output 
+GPIO.setup(relay_pin[2], GPIO.OUT) #set Relay 2 output
+GPIO.setup(relay_pin[3], GPIO.OUT) #set Relay 3 output 
+GPIO.setup(relay_pin[4], GPIO.OUT) #set Relay 4 output 
+GPIO.setup(relay_pin[5], GPIO.OUT) #set Relay 5 output 
+
+
+
+
 
 
 
@@ -85,7 +103,7 @@ while True:
 
 
 
-
+    #scriem in tabelul Inputs valorile citite de senzorii de temp
     #adaugam timestamp 
     mytime = time.asctime( time.localtime(time.time()) )
     val =  [mytime] + val
@@ -93,11 +111,20 @@ while True:
     print(val)
     mycursor.execute(sql, val)
     mydb.commit()
-    
+
+
+
+   #citim din tabelul Rezistente valorile pe care trebuie sa le aiba rezistentele 
     mycursor.execute(sql_rezistente)
     myresult = mycursor.fetchall()
     print("citire din tabelul Rezistente:   " )
     print(myresult)
+    #returneaza un array cu valorile pe care trebuie sa le aiba rezistentele
+    rezistente = str(myresult).strip("])").split(',')[2:]
+    print(rezistente)      
+    for i in range(len(rezistente)):
+      if rezistente[i] == 1:
+          GPIO.output(relay_pin[i], GPIO.HIGH) #turn relay 2 on
 
 
 
