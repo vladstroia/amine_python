@@ -3,40 +3,22 @@ import random
 
 import mysql.connector
 
-
-
-
-
-
 #config relay hat
 #CH1  CH2  CH3  CH4  CH5  
 #P21  P22  P23  P24  P25
 # 29   31   33   35   37
-#relay_pin = [29,31,33,35,37]
+relay_pin = [29,31,33,35,37]
 
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
-# GPIO.setmode(GPIO.BOARD)
-
-
-# GPIO.setup(relay_pin[0], GPIO.OUT) #set Relay 1 output 
-# GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 2 output 
-# GPIO.setup(relay_pin[2], GPIO.OUT) #set Relay 3 output
-# GPIO.setup(relay_pin[3], GPIO.OUT) #set Relay 4 output 
-# GPIO.setup(relay_pin[4], GPIO.OUT) #set Relay 5 output 
+GPIO.setmode(GPIO.BOARD)
 
 
-
-
-
-
-
-
-
-
-
-
-
+GPIO.setup(relay_pin[0], GPIO.OUT) #set Relay 1 output 
+GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 2 output 
+GPIO.setup(relay_pin[2], GPIO.OUT) #set Relay 3 output
+GPIO.setup(relay_pin[3], GPIO.OUT) #set Relay 4 output 
+GPIO.setup(relay_pin[4], GPIO.OUT) #set Relay 5 output 
 
 
 mydb = mysql.connector.connect(
@@ -49,10 +31,6 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 
-# sql querry string
-sql = ("INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6) "
- "VALUES (%s, %s,%s,%s,%s,%s, %s)"
-)
 sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 
 #  CREATE TABLE Inputs (
@@ -68,16 +46,14 @@ sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 # );
 
 while True:
-    # 6 valori random intr-o lista
-    val = [round(random.uniform(20, 60), 2) for i in range (6)]
     
-    #adaugam timestamp 
-    mytime = time.asctime( time.localtime(time.time()) )
-    val =  [mytime] + val
-    print("scriere in tabelul Inputs:   ")
-    print(val)
-    mycursor.execute(sql, val)
+    
+    
+    #nu inteleg de ce, dar asta trebuie sa fie aici
     mydb.commit()
+    
+    
+    
     
     mycursor.execute(sql_rezistente)
     myresult = mycursor.fetchall()
@@ -85,15 +61,20 @@ while True:
     print(myresult)
 
 
-    # rezistente = str(myresult).strip("])").split(',')[2:]
+    rezistente = str(myresult).strip("])").split(',')[2:]
     #returneaza un array cu valorile pe care trebuie sa le aiba rezistentele
-    # print(rezistente)    
+    print(rezistente)    
     #pentru fiecare rezistenta verificam daca trebuie sa fie pornita sa oprita si o pornim/oprim  
-    # for i in range(len(rezistente)):
-      # if rezistente[i] == 1:
-          # GPIO.output(relay_pin[i], GPIO.HIGH) #turn relay  on
-      # else:
-          # GPIO.output(relay_pin[i], GPIO.LOW) #turn relay off 
+    for i in range(len(rezistente)):
+        # print(rezistente[i])
+        # print(" 1")
+        if rezistente[i] == " 1":
+        # if "A" == "A":
+          GPIO.output(relay_pin[i], GPIO.HIGH) #turn relay  on
+          print("rezistenta:    " + str(i+1) + "    e pornita")
+        else:
+          GPIO.output(relay_pin[i], GPIO.LOW) 
+          print("rezistenta:    " + str(i+1) + "    e oprita")
 
     time.sleep( 1 )
 
