@@ -17,10 +17,41 @@ ads1 = ADS.ADS1115(i2c)                   #prima placa ads1115
 ads2 = ADS.ADS1115(i2c, address=0x49)     #pentru a doua placa
 
 
-#config relay hat
-#have to find out what the actual pins are 
-relay_pin = [1,2,3,4,5]
+#ST1
+# ads1_chan_0 = AnalogIn(ads1, ADS.P0)    #canalul 0 de pe placa 1
+# #ST2
+# ads1_chan_1 = AnalogIn(ads1, ADS.P1)    #canalul 1 de pe placa 1
+# ads1_chan_2 = AnalogIn(ads1, ADS.P2)    #
+# ads1_chan_3 = AnalogIn(ads1, ADS.P3)    #
+# ads2_chan_0 = AnalogIn(ads1, ADS.P0)    #canalul 0 de pe placa 2
+# #ST6
+# ads2_chan_1 = AnalogIn(ads1, ADS.P1)    #canalul 1 de pe placa 2
 
+
+
+# am grupat ce era mai sus intr-un vector
+channels = [
+    AnalogIn(ads1, ADS.P0), AnalogIn(ads1, ADS.P1),
+    AnalogIn(ads1, ADS.P2), AnalogIn(ads1, ADS.P3),
+    AnalogIn(ads2, ADS.P0), AnalogIn(ads2, ADS.P1),
+    ]
+
+
+
+
+
+
+
+
+
+
+
+
+#config relay hat
+#CH1  CH2  CH3  CH4  CH5  
+#P21  P22  P23  P24  P25
+# 29   31   33   35   37
+relay_pin = [29,31,33,35,37]
 
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
@@ -28,11 +59,11 @@ GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
 
 #cred ca daca am pune GPIO.BOARD, atunci pinii ar fi de la 21 la 26
 
-GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 1 output 
-GPIO.setup(relay_pin[2], GPIO.OUT) #set Relay 2 output
-GPIO.setup(relay_pin[3], GPIO.OUT) #set Relay 3 output 
-GPIO.setup(relay_pin[4], GPIO.OUT) #set Relay 4 output 
-GPIO.setup(relay_pin[5], GPIO.OUT) #set Relay 5 output 
+GPIO.setup(relay_pin[0], GPIO.OUT) #set Relay 1 output 
+GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 2 output 
+GPIO.setup(relay_pin[2], GPIO.OUT) #set Relay 3 output
+GPIO.setup(relay_pin[3], GPIO.OUT) #set Relay 4 output 
+GPIO.setup(relay_pin[4], GPIO.OUT) #set Relay 5 output 
 
 
 
@@ -44,7 +75,7 @@ GPIO.setup(relay_pin[5], GPIO.OUT) #set Relay 5 output
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
- password="caracter",
+  password="caracter",
   database="Amine"
 )
 
@@ -72,24 +103,6 @@ sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 
 
 
-#ST1
-# ads1_chan_0 = AnalogIn(ads1, ADS.P0)    #canalul 0 de pe placa 1
-# #ST2
-# ads1_chan_1 = AnalogIn(ads1, ADS.P1)    #canalul 1 de pe placa 1
-# ads1_chan_2 = AnalogIn(ads1, ADS.P2)    #
-# ads1_chan_3 = AnalogIn(ads1, ADS.P3)    #
-# ads2_chan_0 = AnalogIn(ads1, ADS.P0)    #canalul 0 de pe placa 2
-# #ST6
-# ads2_chan_1 = AnalogIn(ads1, ADS.P1)    #canalul 1 de pe placa 2
-
-
-
-# am grupat ce era mai sus intr-un vector
-channels = [
-          AnalogIn(ads1, ADS.P0),[AnalogIn(ads1, ADS.P1),
-          [AnalogIn(ads1, ADS.P2),[AnalogIn(ads1, ADS.P3),
-          [AnalogIn(ads2, ADS.P0),[AnalogIn(ads2, ADS.P1),
-          ]
 
 
 
