@@ -1,17 +1,18 @@
-
-
 import time
-
-# import random
+import random
 
 import mysql.connector
+
+
+
+
 
 
 #config relay hat
 #CH1  CH2  CH3  CH4  CH5  
 #P21  P22  P23  P24  P25
 # 29   31   33   35   37
-relay_pin = [29,31,33,35,37]
+#relay_pin = [29,31,33,35,37]
 
 # import RPi.GPIO as GPIO
 
@@ -30,7 +31,14 @@ relay_pin = [29,31,33,35,37]
 
 
 
-#conexiunea la baza de date
+
+
+
+
+
+
+
+
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -41,24 +49,42 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 
+# sql querry string
+sql = ("INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6) "
+ "VALUES (%s, %s,%s,%s,%s,%s, %s)"
+)
 sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 
+#  CREATE TABLE Inputs (
+#     NumberId int NOT NULL AUTO_INCREMENT,
+#     TimeStamp varchar(256),
+#     Temp1 float,
+#     Temp2 float,
+#     Temp3 float,
+#     Temp4 float,
+#     Temp5 float,
+#     Temp6 float,
+#     PRIMARY KEY (NumberId)
+# );
 
-
-
-
-
-
-
-i = 1
 while True:
-    print(i)
-    i += 1
-   #citim din tabelul Rezistente valorile pe care trebuie sa le aiba rezistentele 
+    # 6 valori random intr-o lista
+    val = [round(random.uniform(20, 60), 2) for i in range (6)]
+    
+    #adaugam timestamp 
+    mytime = time.asctime( time.localtime(time.time()) )
+    val =  [mytime] + val
+    print("scriere in tabelul Inputs:   ")
+    print(val)
+    mycursor.execute(sql, val)
+    mydb.commit()
+    
     mycursor.execute(sql_rezistente)
     myresult = mycursor.fetchall()
     print("citire din tabelul Rezistente:   " )
     print(myresult)
+
+
     # rezistente = str(myresult).strip("])").split(',')[2:]
     #returneaza un array cu valorile pe care trebuie sa le aiba rezistentele
     # print(rezistente)    
@@ -69,17 +95,7 @@ while True:
       # else:
           # GPIO.output(relay_pin[i], GPIO.LOW) #turn relay off 
 
-
-
     time.sleep( 1 )
-
-
-
-
-
-
-
-
 
 
 
