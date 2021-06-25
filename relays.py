@@ -70,12 +70,12 @@ while True:
         # print(" 1")
         if rezistente[i] == " 1":
         # if "A" == "A":
-          GPIO.output(relay_pin[i], GPIO.HIGH) #turn relay  on
+          GPIO.output(relay_pin[i], GPIO.LOW) #turn relay  on
           print("rezistenta:    " + str(i+1) + "    e pornita")
         else:
-          GPIO.output(relay_pin[i], GPIO.LOW) 
+          GPIO.output(relay_pin[i], GPIO.HIGH) 
           print("rezistenta:    " + str(i+1) + "    e oprita")
-
+    #low si high sunt invers decat pare logic, dar asa trebuie
     time.sleep( 1 )
 
 
