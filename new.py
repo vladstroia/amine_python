@@ -24,7 +24,9 @@ GPIO.setup(relay_pin[4], GPIO.OUT) #set Relay 5 output
 while True:
 
     GPIO.output(relay_pin[0], GPIO.HIGH) #turn relay  on
+    GPIO.output(relay_pin[1], GPIO.HIGH) #turn relay  on
 
     time.sleep(1)
     GPIO.output(relay_pin[0], GPIO.LOW) #turn relay  on
+    GPIO.output(relay_pin[1], GPIO.LOW) #turn relay  on
     time.sleep(1)

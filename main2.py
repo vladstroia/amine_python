@@ -1,3 +1,4 @@
+
 import time
 
 # import random
@@ -28,7 +29,6 @@ ads2 = ADS.ADS1115(i2c, address=0x49)     #pentru a doua placa
 # ads2_chan_1 = AnalogIn(ads1, ADS.P1)    #canalul 1 de pe placa 2
 
 
-
 # am grupat ce era mai sus intr-un vector
 channels = [
     AnalogIn(ads1, ADS.P0), AnalogIn(ads1, ADS.P1),
@@ -54,10 +54,9 @@ channels = [
 relay_pin = [29,31,33,35,37]
 
 import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
 
+GPIO.setmode(GPIO.BOARD)
 
-#cred ca daca am pune GPIO.BOARD, atunci pinii ar fi de la 21 la 26
 
 GPIO.setup(relay_pin[0], GPIO.OUT) #set Relay 1 output 
 GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 2 output 
