@@ -7,7 +7,7 @@ import mysql.connector
 #CH1  CH2  CH3  CH4  CH5  
 #P21  P22  P23  P24  P25
 # 29   31   33   35   37
-relay_pin = [29,31,33,35,37]
+relay_pin = [29,31,33,35,37, 32]
 
 import RPi.GPIO as GPIO
 
@@ -19,6 +19,11 @@ GPIO.setup(relay_pin[1], GPIO.OUT) #set Relay 2 output
 GPIO.setup(relay_pin[2], GPIO.OUT) #set Relay 3 output
 GPIO.setup(relay_pin[3], GPIO.OUT) #set Relay 4 output 
 GPIO.setup(relay_pin[4], GPIO.OUT) #set Relay 5 output 
+GPIO.setup(relay_pin[5], GPIO.OUT) #set Relay 5 output 
+
+
+
+GPIO.output(relay_pin[5], GPIO.HIGH) #turn relay  on
 
 
 mydb = mysql.connector.connect(
@@ -70,12 +75,16 @@ while True:
         # print(" 1")
         if rezistente[i] == " 1":
         # if "A" == "A":
-          GPIO.output(relay_pin[i], GPIO.LOW) #turn relay  on
+          GPIO.output(relay_pin[i], GPIO.LOW) 
           print("rezistenta:    " + str(i+1) + "    e pornita")
         else:
-          GPIO.output(relay_pin[i], GPIO.HIGH) 
+          GPIO.output(relay_pin[i], GPIO.HIGH) #turn relay  on
           print("rezistenta:    " + str(i+1) + "    e oprita")
-    #low si high sunt invers decat pare logic, dar asa trebuie
+        #LOW si HIGH sunt invers decat ar fi logic, dar asa trebuie
+
+
+
+
     time.sleep( 1 )
 
 

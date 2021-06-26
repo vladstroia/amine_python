@@ -94,8 +94,8 @@ while True:
     
     #val este lista cu cele 6 temperaturi
     #prin channel.voltage citim tensiunea inregistrata pe fiecare canal si apoi facem calculele necesare pt a gasi temperatura  
-    val = [200*(channel.voltage - 0.8)/3 for channel in channels]
-
+    val = [round(200*(channel.voltage - 0.8)/3, 2) for channel in channels]
+    #functia "round" rotunjeste numarul la doua zecimale
 
 
 
