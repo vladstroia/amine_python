@@ -65,7 +65,14 @@ sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 #     PRIMARY KEY (NumberId)
 # );
 
+
+
+
+
+
 i = 0
+
+
 
 while True:
     # 6 valori random intr-o lista
@@ -77,7 +84,7 @@ while True:
 
 #val = '{0:.2f}'.format(val)
 
-
+    
     #scriem in tabelul Inputs valorile citite de senzorii de temp
     #adaugam timestamp 
     val =  [i] + val
