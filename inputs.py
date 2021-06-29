@@ -36,20 +36,6 @@ channels = [
     AnalogIn(ads2, ADS.P0), AnalogIn(ads2, ADS.P1),
     ]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #conexiunea la baza de date
 mydb = mysql.connector.connect(
   host="localhost",
@@ -79,14 +65,7 @@ sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 #     PRIMARY KEY (NumberId)
 # );
 
-
-
-
-
-
-
-
-
+i = 0
 
 while True:
     # 6 valori random intr-o lista
@@ -94,20 +73,21 @@ while True:
     
     #val este lista cu cele 6 temperaturi
     #prin channel.voltage citim tensiunea inregistrata pe fiecare canal si apoi facem calculele necesare pt a gasi temperatura  
-    val = [round(200*(channel.voltage - 0.8)/3, 2) for channel in channels]
-    #functia "round" rotunjeste numarul la doua zecimale
+    val = ['{0:.2f}'.format(200*(channel.voltage - 0.8)/3) for channel in channels]
 
+#val = '{0:.2f}'.format(val)
 
 
     #scriem in tabelul Inputs valorile citite de senzorii de temp
     #adaugam timestamp 
-    mytime = time.asctime( time.localtime(time.time()) )
-    val =  [mytime] + val
+    val =  [i] + val
     print("scriere in tabelul Inputs:   ")
     print(val)
     mycursor.execute(sql, val)
     mydb.commit()
-
+    
+    
+    i += 1
 
 
     time.sleep( 1 )
