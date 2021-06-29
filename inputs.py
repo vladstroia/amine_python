@@ -84,7 +84,7 @@ sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 
 
 
-
+i = 0
 
 
 
@@ -98,17 +98,16 @@ while True:
     #functia "round" rotunjeste numarul la doua zecimale
 
 
-
+    
     #scriem in tabelul Inputs valorile citite de senzorii de temp
     #adaugam timestamp 
-    mytime = time.asctime( time.localtime(time.time()) )
-    val =  [mytime] + val
+    val =  [i] + val
     print("scriere in tabelul Inputs:   ")
     print(val)
     mycursor.execute(sql, val)
     mydb.commit()
 
-
+    i += 1
 
     time.sleep( 1 )
 
