@@ -57,7 +57,6 @@ sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 sql_numarul_experimentului = ("SELECT NumarulExperimentului FROM Inputs ORDER BY NumberId DESC LIMIT 1;")
 
 
-
 #cum am creat tabelul in mysql
 # MariaDB [Amine]>  CREATE TABLE Inputs (                                                                                                         
     # ->    NumberId int NOT NULL AUTO_INCREMENT,                                                                                                  
@@ -95,8 +94,9 @@ while True:
         #formateaza rezultatul ca sa primesti un int curat   (adica in loc sa ai '[('1',)]' ai doar 1)
         numarul_experimentului =  int(' '.join([str(elem) for elem in myresult]).strip('(\',)'))
         numarul_experimentului += 1
-
-
+        asd = numarul_experimentului - 2
+        sql_delete_old = "delete from Inputs where NumarulExperimentului < {}".format(asd)
+        mycursor.execute(sql_delete_old)
 
 
 
