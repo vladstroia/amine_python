@@ -48,8 +48,8 @@ mycursor = mydb.cursor()
 
 
 # sql querry string
-sql = ("INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6) "
- "VALUES (%s, %s,%s,%s,%s,%s, %s)"
+sql = ("INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6, Re1, Re2, Re3, Re4) "
+ "VALUES (%s, %s,%s,%s,%s,%s, %s,%s,%s,%s, %s)"
 )
 sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 
@@ -75,21 +75,34 @@ i = 0
 
 
 while True:
+
+
+    mycursor.execute(sql_rezistente)
+    myresult = mycursor.fetchall()
+    print("citire din tabelul Rezistente:   " )
+    rezistente = str(myresult).strip("])").split(',')[2:]
+    print(rezistente)
+
+
+
+
+
+
     # 6 valori random intr-o lista
     # val = [round(random.uniform(20, 60), 2) for i in range (6)]
     
     #val este lista cu cele 6 temperaturi
     #prin channel.voltage citim tensiunea inregistrata pe fiecare canal si apoi facem calculele necesare pt a gasi temperatura  
-    val = ['{0:.2f}'.format(200*(channel.voltage - 0.8)/3) for channel in channels]
+    val = ['{0:.2f}'.format(197.5*(channel.voltage - 0.8)/3) for channel in channels]
 
 #val = '{0:.2f}'.format(val)
 
     
     #scriem in tabelul Inputs valorile citite de senzorii de temp
     #adaugam timestamp 
-    val =  [i] + val
+    val =  [i] + val + rezistente
     print("scriere in tabelul Inputs:   ")
-    print(val)
+    print(  val)
     mycursor.execute(sql, val)
     mydb.commit()
     
