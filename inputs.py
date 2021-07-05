@@ -48,33 +48,56 @@ mycursor = mydb.cursor()
 
 
 # sql querry string
-sql = ("INSERT INTO Inputs (TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6, Re1, Re2, Re3, Re4) "
- "VALUES (%s, %s,%s,%s,%s,%s, %s,%s,%s,%s, %s)"
+sql = ("INSERT INTO Inputs (NumarulExperimentului, TimeStamp, Temp1,Temp2,Temp3,Temp4,Temp5,Temp6, Re1, Re2, Re3, Re4) "
+ "VALUES (%s, %s,%s,%s,%s,%s, %s,%s,%s,%s, %s, %s)"
 )
 sql_rezistente = "SELECT * FROM Rezistente ORDER BY NumberId DESC LIMIT 1;"
 
-#  CREATE TABLE Inputs (
-#     NumberId int NOT NULL AUTO_INCREMENT,
-#     TimeStamp varchar(256),
-#     Temp1 float,
-#     Temp2 float,
-#     Temp3 float,
-#     Temp4 float,
-#     Temp5 float,
-#     Temp6 float,
-#     PRIMARY KEY (NumberId)
-# );
+
+sql_numarul_experimentului = ("SELECT NumarulExperimentului FROM Inputs ORDER BY NumberId DESC LIMIT 1;")
+
+
+
+#cum am creat tabelul in mysql
+# MariaDB [Amine]>  CREATE TABLE Inputs (                                                                                                         
+    # ->    NumberId int NOT NULL AUTO_INCREMENT,                                                                                                  
+    # -> NumarulExperimentului varchar(256),                                                                                                       
+    # -> TimeStamp varchar(256),                                                                                                                   
+    # ->     Temp1 float,                                                                                                                          
+    # ->     Temp2 float,                                                                                                                          
+    # ->     Temp3 float,                                                                                                                          
+    # ->     Temp4 float,
+    # ->     Temp5 float,
+    # ->     Temp6 float,
+    # -> Re1 int,
+    # -> Re2 int,
+    # -> Re3 int,
+    # -> Re4 int,
+    # ->     PRIMARY KEY (NumberId)
+    # -> )
+    # -> ;
 
 
 
 
-
-
+#timpul de cand a pornit experimentul
 i = 0
 
 
 
 while True:
+
+#daca i == 0 inseamna ca tocmai s-a deschis calculatorul, deci este un experiment nou, deci updatam numarul experminetului( il incrementam cu 1)
+#pentru a face asta citim ultimul rand din tabelul Inputs, vedem cat era numanulexperimentului ultima data si apoi il incrementam
+    if i == 0:
+        mycursor.execute(sql_numarul_experimentului)
+        myresult = mycursor.fetchall()
+        #formateaza rezultatul ca sa primesti un int curat   (adica in loc sa ai '[('1',)]' ai doar 1)
+        numarul_experimentului =  int(' '.join([str(elem) for elem in myresult]).strip('(\',)'))
+        numarul_experimentului += 1
+
+
+
 
 
     mycursor.execute(sql_rezistente)
@@ -100,7 +123,7 @@ while True:
     
     #scriem in tabelul Inputs valorile citite de senzorii de temp
     #adaugam timestamp 
-    val =  [i] + val + rezistente
+    val = [numarul_experimentului] + [i] + val + rezistente
     print("scriere in tabelul Inputs:   ")
     print(  val)
     mycursor.execute(sql, val)
