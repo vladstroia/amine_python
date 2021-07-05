@@ -79,9 +79,9 @@ while True:
 
     mycursor.execute(sql_rezistente)
     myresult = mycursor.fetchall()
-    print("citire din tabelul Rezistente:   " )
+    # print("citire din tabelul Rezistente:   " )
     rezistente = str(myresult).strip("])").split(',')[2:]
-    print(rezistente)
+    # print(rezistente)
 
 
 
